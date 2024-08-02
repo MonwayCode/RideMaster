@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../assets/logo.png';
 
-const Login = () => {
+const Register = () => {
     return (
         <section className="vh-100" style={{ backgroundColor: '#D0B8A8' }}>
             <div className="container h-100">
@@ -10,7 +10,7 @@ const Login = () => {
                         <div className="card" style={{ borderRadius: '1rem' }}>
                             <div className="row g-0">
                                 <div className="col-md-6 d-flex justify-content-center align-items-center"
-                                    style = {{ backgroundColor: '#F8EDE3', borderRadius: '1rem 0 0 1rem' }}>
+                                    style={{ backgroundColor: '#F8EDE3', borderRadius: '1rem 0 0 1rem' }}>
                                     <img
                                         src={logo}
                                         alt="logo"
@@ -18,12 +18,16 @@ const Login = () => {
                                         style={{ borderRadius: '1rem 0 0 1rem', maxWidth: '100%', height: 'auto' }}
                                     />
                                 </div>
-                                <div className="col-md-6 d-flex align-items-center ">
-                                    <div className="card-body p-8 text-black">
+                                <div className="col-md-6 d-flex align-items-center">
+                                    <div className="card-body p-4 text-black">
                                         <form>
                                             <div className="d-flex align-items-center pb-1">
-                                                <i style={{ color: '#ff6219' }}></i>
-                                                <span className="h1 fw-bold mb-0">Login</span>
+                                                <i style={{ color: '#FF6219' }}></i>
+                                                <span className="h1 fw-bold mb-0">Registration</span>
+                                            </div>
+                                            <div className="form-outline mb-4">
+                                                <input id="name" className="form-control form-control-lg" />
+                                                <label className="form-label" htmlFor="name">Name</label>
                                             </div>
                                             <div className="form-outline mb-4">
                                                 <input type="email" id="email" className="form-control form-control-lg" />
@@ -33,6 +37,10 @@ const Login = () => {
                                                 <input type="password" id="password" className="form-control form-control-lg" />
                                                 <label className="form-label" htmlFor="password">Password</label>
                                             </div>
+                                            <div className="form-outline mb-4">
+                                                <input type="password" id="rpassword" className="form-control form-control-lg" />
+                                                <label className="form-label" htmlFor="rpassword">Repeat password</label>
+                                            </div>
                                             <div className="pt-1 mb-4">
                                                 <button className="btn btn-lg btn-block" type="button" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
                                                     Login
@@ -40,10 +48,10 @@ const Login = () => {
                                             </div>
                                             <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
                                                 <div>
-                                                    Don't have an account?
+                                                    Do have an account?
                                                 </div>
                                                 <div>
-                                                    <a href="/registration" style={{ color: '#393f81' }}>Register here</a>
+                                                    <a href="/login" style={{ color: '#393f81' }}>Login here</a>
                                                 </div>
                                             </p>
                                         </form>
@@ -58,4 +66,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Register;

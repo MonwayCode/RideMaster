@@ -15,8 +15,8 @@ const db = mysql.createConnection({
 })
 
 app.post('/rejestracja', (req,res) => {
-    const sql =  `INSERT INTO uzytkownicy (name, email, password) VALUES (?, ?, ?)`;
-    const values = [req.body.name, req.body.email, req.body.password];
+    const sql =  `INSERT INTO uzytkownicy (name, surname, email, phone, password) VALUES (?, ?, ?, ?, ?)`;
+    const values = [req.body.name, req.body.surname, req.body.email, req.body.phone, req.body.password];
     db.query(sql,values, (err,data) => {
         if(err)
         {

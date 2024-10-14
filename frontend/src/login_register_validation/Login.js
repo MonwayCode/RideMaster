@@ -84,7 +84,7 @@ function Login ()
                                                     Nie masz jeszcze konta?
                                                 </div>
                                                 <div>
-                                                    <a href="/registration" style={{ color: '#393f81' }}>Zarejestruj się</a>
+                                                    <a href="/registration" style={{ color: '#393f81' }}>Zarejestruj się!</a>
                                                 </div>
                                             </p>
                                         </form>

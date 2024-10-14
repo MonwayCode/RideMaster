@@ -11,8 +11,10 @@ function Register ()
 {
     const [values, setValues] = useState({
         name : '',
-        email: '',
-        password: ''
+        surname : '',
+        email : '',
+        phone : '',
+        password : ''
     });
 
     const [errors, setErrors] = useState({});
@@ -20,7 +22,7 @@ function Register ()
     const handleInput = (event) => {
         const {name, value} = event.target;
         setValues(prev => ({ ...prev, [name]: value }));
-        setErrors(prev => ({ ...prev, [name]: Validation({ ...values, [name]: value }) [name] }));
+        setErrors(prev => ({ ...prev, [name]: Validation({ ...values, [name]: value })[name] }));
     }
 
     const navigate = useNavigate();
@@ -43,7 +45,7 @@ function Register ()
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-lg-8 col-md-10 col-sm-12">
                         <form onSubmit={handleSubmit}>
-                        <div className="card" style={{ borderRadius: '1rem' }}>
+                        <div className="card" style={{ borderRadius: '1rem', maxWidth: '600px', margin: 'auto' }}>
                             <div className="row g-0">
                                 <div className="col-md-6 d-flex justify-content-center align-items-center"
                                     style={{ backgroundColor: '#F8EDE3', borderRadius: '1rem 0 0 1rem' }}>
@@ -61,35 +63,46 @@ function Register ()
                                                 <i style={{ color: '#FF6219' }}></i>
                                                 <span className="h1 fw-bold mb-0">Rejestracja</span>
                                             </div>
-                                            <div className="form-outline mb-4">
+
+                                            <div className="form-outline mb-3">
                                                 <input id="name" name="name" className="form-control form-control-lg" onChange={handleInput}/>
                                                 <label className="form-label" htmlFor="name">Imie</label>
                                                 {errors.name && <div className='text-danger'>{errors.name}</div>}
                                             </div>
-                                            <div className="form-outline mb-4">
+
+                                            <div className="form-outline mb-3">
+                                                <input id="surname" name="surname" className="form-control form-control-lg" onChange={handleInput}/>
+                                                <label className="form-label" htmlFor="surname">Nazwisko</label>
+                                                {errors.surname && <div className='text-danger'>{errors.surname}</div>}
+                                            </div>
+
+                                            <div className="form-outline mb-3">
                                                 <input type="email" id="email" name="email" className="form-control form-control-lg" onChange={handleInput}/>
                                                 <label className="form-label" htmlFor="email">Adres email</label>
                                                 {errors.email && <div className='text-danger'>{errors.email}</div>}
                                             </div>
-                                            <div className="form-outline mb-4">
+
+                                            <div className="form-outline mb-3">
+                                                <input id="phone" name="phone" className="form-control form-control-lg" onChange={handleInput}/>
+                                                <label className="form-label" htmlFor="phone">Numer telefonu</label>
+                                                {errors.phone && <div className='text-danger'>{errors.phone}</div>}
+                                            </div>
+
+                                            <div className="form-outline mb-3">
                                                 <input type="password" id="password" name="password" className="form-control form-control-lg" onChange={handleInput}/>
                                                 <label className="form-label" htmlFor="password">Hasło</label>
                                                 {errors.password && <div className='text-danger'>{errors.password}</div>}
                                             </div>
-                                            <div className="pt-1 mb-4">
+
+                                            <div className="pt-1 mb-3">
                                                 <button className="btn btn-lg btn-block" type="submit" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
                                                     Zarejestruj
                                                 </button>
                                             </div>
-                                            <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
-                                                <div>
-                                                    Masz już konto?
-                                                </div>
-                                                <div>
-                                                    <a href="/login" style={{ color: '#393f81' }}>Zaloguj się!</a>
-                                                </div>
+                                            
+                                            <p className="mb-0" style={{ color: '#393f81' }}> 
+                                                Masz już konto? <a href="/login" style={{ color: '#393f81' }}>Zaloguj się!</a>
                                             </p>
-                                
                                     </div>
                                 </div>
                             </div>

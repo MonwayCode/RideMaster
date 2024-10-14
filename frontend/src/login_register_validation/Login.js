@@ -64,12 +64,12 @@ function Login ()
                                                 <i style={{ color: '#ff6219' }}></i>
                                                 <span className="h1 fw-bold mb-0">Logowanie</span>
                                             </div>
-                                            <div className="form-outline mb-4">
+                                            <div className="form-outline mb-3">
                                                 <input type="email" name="email" id="email" className="form-control form-control-lg" onChange={handleInput} />
                                                 <label className="form-label" htmlFor="email">Adres email</label>
                                                 {errors.email && <div className='text-danger'>{errors.email}</div>}
                                             </div>
-                                            <div className="form-outline mb-4">
+                                            <div className="form-outline mb-3">
                                                 <input type="password" id="password" name="password" className="form-control form-control-lg" onChange={handleInput} />
                                                 <label className="form-label" htmlFor="password">Hasło</label>
                                                 {errors.password && <div className='text-danger'>{errors.password}</div>}
@@ -79,13 +79,9 @@ function Login ()
                                                     Zaloguj
                                                 </button>
                                             </div>
-                                            <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
-                                                <div>
-                                                    Nie masz jeszcze konta?
-                                                </div>
-                                                <div>
-                                                    <a href="/registration" style={{ color: '#393f81' }}>Zarejestruj się!</a>
-                                                </div>
+          
+                                            <p className="mb-0 " style={{ color: '#393f81' }}> 
+                                                Nie masz jeszcze konta? <a href="/registration" style={{ color: '#393f81' }}>Zarejestruj się!</a>
                                             </p>
                                         </form>
                                     </div>

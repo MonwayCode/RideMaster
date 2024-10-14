@@ -45,7 +45,7 @@ function Register ()
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-lg-8 col-md-10 col-sm-12">
                         <form onSubmit={handleSubmit}>
-                        <div className="card" style={{ borderRadius: '1rem', maxWidth: '600px', margin: 'auto' }}>
+                        <div className="card" style={{ borderRadius: '1rem', maxWidth: '900px', margin: 'auto',  maxHeight: '90vh', overflow: 'auto' }}>
                             <div className="row g-0">
                                 <div className="col-md-6 d-flex justify-content-center align-items-center"
                                     style={{ backgroundColor: '#F8EDE3', borderRadius: '1rem 0 0 1rem' }}>
@@ -100,7 +100,7 @@ function Register ()
                                                 </button>
                                             </div>
                                             
-                                            <p className="mb-0" style={{ color: '#393f81' }}> 
+                                            <p className="mb-0 " style={{ color: '#393f81' }}> 
                                                 Masz już konto? <a href="/login" style={{ color: '#393f81' }}>Zaloguj się!</a>
                                             </p>
                                     </div>

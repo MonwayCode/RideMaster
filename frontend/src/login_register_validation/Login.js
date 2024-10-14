@@ -23,27 +23,27 @@ const Login = () => {
                                         <form>
                                             <div className="d-flex align-items-center pb-1">
                                                 <i style={{ color: '#ff6219' }}></i>
-                                                <span className="h1 fw-bold mb-0">Login</span>
+                                                <span className="h1 fw-bold mb-0">Logowanie</span>
                                             </div>
                                             <div className="form-outline mb-4">
                                                 <input type="email" id="email" className="form-control form-control-lg" />
-                                                <label className="form-label" htmlFor="email">Email address</label>
+                                                <label className="form-label" htmlFor="email">Adres email</label>
                                             </div>
                                             <div className="form-outline mb-4">
                                                 <input type="password" id="password" className="form-control form-control-lg" />
-                                                <label className="form-label" htmlFor="password">Password</label>
+                                                <label className="form-label" htmlFor="password">Hasło</label>
                                             </div>
                                             <div className="pt-1 mb-4">
                                                 <button className="btn btn-lg btn-block" type="button" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
-                                                    Login
+                                                    Zaloguj
                                                 </button>
                                             </div>
                                             <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
                                                 <div>
-                                                    Don't have an account?
+                                                    Nie masz jeszcze konta?
                                                 </div>
                                                 <div>
-                                                    <a href="/registration" style={{ color: '#393f81' }}>Register here</a>
+                                                    <a href="/registration" style={{ color: '#393f81' }}>Zarejestruj się</a>
                                                 </div>
                                             </p>
                                         </form>

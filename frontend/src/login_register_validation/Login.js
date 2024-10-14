@@ -1,7 +1,46 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Login = () => {
+import Validation from './LoginValid';
+
+function Login ()
+{
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const handleInput = (event) => {
+        const { name, value } = event.target;
+        setValues(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: Validation({ ...values, [name]: value })[name] }));
+    };
+
+    const navigate = useNavigate();
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setErrors(Validation(values));
+        if(errors.email === "" && errors.password === "")
+        {
+            axios.post('http://localhost:3001/logowanie', values).then(res => {
+                if(res.data.error === null)
+                {
+                    //setUserId(res.data.userId);
+                    window.localStorage.setItem("userId",res.data.userId);
+                    navigate('/');
+                }
+                else
+                {
+                    alert("Użytkownik nie istnieje")
+                }
+            }).catch(err => console.log(err));
+        }
+    };
+
     return (
         <section className="vh-100" style={{ backgroundColor: '#D0B8A8' }}>
             <div className="container h-100">
@@ -20,21 +59,23 @@ const Login = () => {
                                 </div>
                                 <div className="col-md-6 d-flex align-items-center ">
                                     <div className="card-body p-8 text-black">
-                                        <form>
+                                        <form onSubmit={handleSubmit}>
                                             <div className="d-flex align-items-center pb-1">
                                                 <i style={{ color: '#ff6219' }}></i>
                                                 <span className="h1 fw-bold mb-0">Logowanie</span>
                                             </div>
                                             <div className="form-outline mb-4">
-                                                <input type="email" id="email" className="form-control form-control-lg" />
+                                                <input type="email" name="email" id="email" className="form-control form-control-lg" onChange={handleInput} />
                                                 <label className="form-label" htmlFor="email">Adres email</label>
+                                                {errors.email && <div className='text-danger'>{errors.email}</div>}
                                             </div>
                                             <div className="form-outline mb-4">
-                                                <input type="password" id="password" className="form-control form-control-lg" />
+                                                <input type="password" id="password" name="password" className="form-control form-control-lg" onChange={handleInput} />
                                                 <label className="form-label" htmlFor="password">Hasło</label>
+                                                {errors.password && <div className='text-danger'>{errors.password}</div>}
                                             </div>
                                             <div className="pt-1 mb-4">
-                                                <button className="btn btn-lg btn-block" type="button" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
+                                                <button className="btn btn-lg btn-block" type="submit" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
                                                     Zaloguj
                                                 </button>
                                             </div>

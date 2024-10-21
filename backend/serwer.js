@@ -15,7 +15,7 @@ const db = mysql.createConnection({
 })
 
 app.post('/rejestracja', (req,res) => {
-    const sql =  `INSERT INTO uzytkownicy (name, surname, email, phone, password) VALUES (?, ?, ?, ?, ?)`;
+    const sql =  `INSERT INTO users (name, surname, email, phone, password) VALUES (?, ?, ?, ?, ?)`;
     const values = [req.body.name, req.body.surname, req.body.email, req.body.phone, req.body.password];
     db.query(sql,values, (err,data) => {
         if(err)
@@ -27,7 +27,7 @@ app.post('/rejestracja', (req,res) => {
 })
 
 app.post('/logowanie', (req,res) => {
-    const sql = "SELECT * FROM uzytkownicy WHERE `email` = ? AND `password` = ?";
+    const sql = "SELECT * FROM users WHERE `email` = ? AND `password` = ?";
     db.query(sql,[ req.body.email, req.body.password], (err,data) => {
         if(err)
         {
@@ -46,15 +46,26 @@ app.post('/logowanie', (req,res) => {
 
 app.get('/imie/:userId', (req, res) => {
     const x = req.params.userId;
-    const sql = `SELECT name FROM uzytkownicy WHERE userId = ?`;
+    const sql = `SELECT name FROM users WHERE userId = ?`;
     db.query(sql,[x], (err, results) => {
         if (err) {
             throw err;
         }
         const userName = results[0].name;
-        console.log("Imię użytkownika to: ", userName); // Wywołanie w console.log
         return res.json({ name: userName });    });
 });
+
+app.post('/nowastajnia', (req,res) => {
+    const sql =  `INSERT INTO stables (name, location, ownerId) VALUES (?, ?, ?)`;
+    const values = [req.body.name, req.body.location, req.body.ownerId];
+    db.query(sql,values, (err,data) => {
+        if(err)
+        {
+            throw err;
+        }
+        return res.json(data);
+    }) 
+})
 
 app.listen(3001, () => {
     console.log(`Server is running on http://localhost:3001`);

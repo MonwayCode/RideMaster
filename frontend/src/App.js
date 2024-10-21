@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './Home'; 
 import Login from './login_register_validation/Login';
 import Register from './login_register_validation/Register';
+import NewStable from './stable/NewStable';
+
 const App = () => {
   return (
     <Router>
@@ -12,6 +14,7 @@ const App = () => {
               <Route path = "/" element={<Home/>} />
               <Route path = "/login" element={<Login/>} />
               <Route path = "/registration" element={<Register/>} />
+              <Route path = "/newstable" element={<NewStable/>} />
       </Routes>
     </Router>
   );

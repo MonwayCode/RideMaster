@@ -6,6 +6,7 @@ import Home from './Home';
 import Login from './login_register_validation/Login';
 import Register from './login_register_validation/Register';
 import NewStable from './stable/NewStable';
+import Search from './stable/Search';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
               <Route path = "/login" element={<Login/>} />
               <Route path = "/registration" element={<Register/>} />
               <Route path = "/newstable" element={<NewStable/>} />
+              <Route path = "/search" element={<Search/>} />
       </Routes>
     </Router>
   );

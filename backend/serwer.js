@@ -55,17 +55,64 @@ app.get('/imie/:userId', (req, res) => {
         return res.json({ name: userName });    });
 });
 
-app.post('/nowastajnia', (req,res) => {
-    const sql =  `INSERT INTO stables (name, location, ownerId) VALUES (?, ?, ?)`;
+app.post('/nowastajnia', (req, res) => {
+    const sql = `INSERT INTO stables (name, location, ownerId) VALUES (?, ?, ?)`;
     const values = [req.body.name, req.body.location, req.body.ownerId];
-    db.query(sql,values, (err,data) => {
-        if(err)
+
+    db.query(sql, values, (err, data) => {
+        if (err) 
         {
             throw err;
         }
-        return res.json(data);
-    }) 
+
+        const stableId = data.insertId;
+
+        const sqlOwner = `INSERT INTO customers (userId, stableId, role) VALUES (?, ?, 'owner')`;
+        const customerValues = [req.body.ownerId, stableId];
+
+        db.query(sqlOwner, customerValues, (err, ownerResults) => {
+            if (err) 
+            {
+                throw err;
+            }
+        });
+    });
+});
+
+
+app.get('/stajnie',(req, res) => {
+    const sql = `SELECT * FROM stables`;
+    db.query(sql, (err, results) => {
+        if(err)
+            {
+                throw err;
+            }
+        return res.json(results);
+    })
 })
+
+app.post('/klienci', (req, res) => {
+    const { userId, stableId } = req.body;
+
+    const sql = `INSERT INTO customers (userId, stableId) VALUES (?, ?)`;
+    const values = [userId, stableId];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            
+            if (err.code === 'ER_DUP_ENTRY') //obsługa błędu jeśli użytkownik już jest w stajni
+            {
+                return res.status(400).json();
+            }
+            else
+            {
+                throw err;
+            }
+        }
+    });
+});
+
+
 
 app.listen(3001, () => {
     console.log(`Server is running on http://localhost:3001`);

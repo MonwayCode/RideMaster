@@ -38,7 +38,7 @@ function Header()
   return (
     <header className="p-3 d-flex justify-content-between align-items-center" style={{ backgroundColor: '#92000f' }}>
       <h1 className="mb-0">RideMaster</h1>
-      <p className="mb-0">Hej, {name}!</p>
+      <p className="mb-0" style={{ fontSize: '20px', marginRight: '60px' }}>Hej, {name}!</p>
       <button className="btn btn-light" onClick={handleLogout}>
         Wyloguj się
       </button>

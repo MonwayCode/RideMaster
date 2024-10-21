@@ -31,8 +31,8 @@ function Home()
       
         <div className="card bg-light">
           <div className="card-body">
-            <button className="btn btn-danger me-2">Dołącz do stajni</button>
-            <button className="btn btn-danger" onClick={() => navigate("/newstable")}>Stwórz własną stajnię</button>
+            <button className="btn btn-danger me-2" onClick={() => navigate('/search')}>Dołącz do stajni</button>
+            <button className="btn btn-danger" onClick={() => navigate('/newstable')}>Stwórz własną stajnię</button>
           </div>
         </div>
       </div>

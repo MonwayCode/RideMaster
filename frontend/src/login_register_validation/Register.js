@@ -45,15 +45,15 @@ function Register ()
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-lg-8 col-md-10 col-sm-12">
                         <form onSubmit={handleSubmit}>
-                        <div className="card" style={{ borderRadius: '1rem', maxWidth: '900px', margin: 'auto',  maxHeight: '90vh', overflow: 'auto' }}>
+                        <div className="card" style={{ borderRadius: '1rem', border: 'none', maxWidth: '900px', margin: 'auto',  maxHeight: '90vh', overflow: 'auto' }}>
                             <div className="row g-0">
                                 <div className="col-md-6 d-flex justify-content-center align-items-center"
-                                    style={{ backgroundColor: '#F8EDE3', borderRadius: '1rem 0 0 1rem' }}>
+                                    style={{ backgroundColor: '#4e4562', borderRadius: '1rem 0 0 1rem' }}>
                                     <img
                                         src={logo}
                                         alt="logo"
                                         className="img-fluid"
-                                        style={{ borderRadius: '1rem 0 0 1rem', maxWidth: '100%', height: 'auto' }}
+                                        style={{ borderRadius: '1rem 0 0 1rem', maxWidth: '100%', height: 'auto', marginRight: '5px' }}
                                     />
                                 </div>
                                 <div className="col-md-6 d-flex align-items-center">

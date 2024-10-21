@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,7 +29,6 @@ function Login ()
             axios.post('http://localhost:3001/logowanie', values).then(res => {
                 if(res.data.error === null)
                 {
-                    //setUserId(res.data.userId);
                     window.localStorage.setItem("userId",res.data.userId);
                     navigate('/');
                 }
@@ -42,7 +41,7 @@ function Login ()
     };
 
     return (
-        <section className="vh-100" style={{ backgroundColor: '#D0B8A8' }}>
+        <section className=" bg-dark vh-100" >
             <div className="container h-100">
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-lg-8 col-md-10 col-sm-12">
@@ -75,7 +74,7 @@ function Login ()
                                                 {errors.password && <div className='text-danger'>{errors.password}</div>}
                                             </div>
                                             <div className="pt-1 mb-4">
-                                                <button className="btn btn-lg btn-block" type="submit" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
+                                                <button className="btn btn-lg btn-block" type="submit" style={{backgroundColor: '#4E4562', color: '#bbbcd0'}}>
                                                     Zaloguj
                                                 </button>
                                             </div>

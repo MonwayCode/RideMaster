@@ -44,6 +44,18 @@ app.post('/logowanie', (req,res) => {
     })
 })
 
+app.get('/imie/:userId', (req, res) => {
+    const x = req.params.userId;
+    const sql = `SELECT name FROM uzytkownicy WHERE userId = ?`;
+    db.query(sql,[x], (err, results) => {
+        if (err) {
+            throw err;
+        }
+        const userName = results[0].name;
+        console.log("Imię użytkownika to: ", userName); // Wywołanie w console.log
+        return res.json({ name: userName });    });
+});
+
 app.listen(3001, () => {
     console.log(`Server is running on http://localhost:3001`);
 });

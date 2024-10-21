@@ -40,7 +40,7 @@ function Register ()
     }
 
     return (
-        <section className="vh-100" style={{ backgroundColor: '#D0B8A8' }}>
+        <section className=" bg-dark vh-100">
             <div className="container h-100">
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-lg-8 col-md-10 col-sm-12">
@@ -95,7 +95,7 @@ function Register ()
                                             </div>
 
                                             <div className="pt-1 mb-3">
-                                                <button className="btn btn-lg btn-block" type="submit" style={{backgroundColor: '#4E4562', color: '#FFECDE'}}>
+                                                <button className="btn btn-lg btn-block" type="submit" style={{backgroundColor: '#4E4562', color: '#bbbcd0'}}>
                                                     Zarejestruj
                                                 </button>
                                             </div>

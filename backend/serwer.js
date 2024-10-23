@@ -112,7 +112,27 @@ app.post('/klienci', (req, res) => {
     });
 });
 
+app.get('/list/:userId', (req, res) => {
+    const userId = req.params.userId;
 
+    const sql = `
+        SELECT s.stableId, c.role, s.name, s.location
+        FROM customers c
+        JOIN stables s ON c.stableId = s.stableId
+        WHERE c.userId = ?
+        `;
+
+        db.query(sql, [userId], (err, results) => {
+            if(err)
+            {
+                throw err;
+            }
+            else
+            {
+                res.json(results);
+            }
+        })
+})
 
 app.listen(3001, () => {
     console.log(`Server is running on http://localhost:3001`);

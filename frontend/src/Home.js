@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, Link } from "react-router-dom"; 
 
 import Header from "./Header";
 
@@ -39,8 +39,14 @@ function Home()
             <ul className="list-group list-group-flush" >
               {stables.length > 0 ? (
                 stables.map(stable => (
-                  <li key={stable.stableId} className="list-group-item">
-                    <a href="#" className="text-danger" style = {{fontSize : "20px", display: 'flex', justifyContent: 'center' }}>{stable.name} - {stable.location}</a>
+                  <li key={stable.stableId} className="list-group-item" style = {{fontSize : "20px", display: 'flex', justifyContent: 'center' }}>
+                  <Link 
+                    to={`/${stable.stableId}`} 
+                    state = {{role : stable.role}}
+                    className="text-danger"
+                  >
+                    {stable.name} - {stable.location}
+                  </Link>
                   </li>
                 ))
               ) : (

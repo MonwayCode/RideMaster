@@ -7,17 +7,20 @@ import Login from './login_register_validation/Login';
 import Register from './login_register_validation/Register';
 import NewStable from './stable/NewStable';
 import Search from './stable/Search';
+import Stable from './stable/Stable';
 
 const App = () => {
+
   return (
     <Router>
       <Routes>
-              <Route path = "/" element={<Home/>} />
-              <Route path = "/login" element={<Login/>} />
-              <Route path = "/registration" element={<Register/>} />
-              <Route path = "/newstable" element={<NewStable/>} />
-              <Route path = "/search" element={<Search/>} />
-      </Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<Register />} />
+        <Route path="/newstable" element={<NewStable />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/:stableId" element={<Stable />} />
+        </Routes>
     </Router>
   );
 };

@@ -3,9 +3,9 @@ import { useParams, useLocation } from "react-router-dom";
 
 import Header from "../Header";
 import Calendar from "./Calender";
+import Participants from "./Participants";
 
 function Stable() {
-  const { stableId } = useParams();
   const location = useLocation();
   const { role } = location.state || {};
 
@@ -17,6 +17,7 @@ function Stable() {
         { id: "calendar", label: "Kalendarz" },
         { id: "trainings", label: "Treningi" },
         { id: "participants", label: "Uczestnicy" },
+        { id: "info", label: "Informacje" },
       ];
     } else if (role === "client") {
       return [
@@ -37,7 +38,7 @@ function Stable() {
       case "trainings":
         return <div>Treningi Content</div>;
       case "participants":
-        return <div>Uczestnicy Content</div>;
+        return <Participants />
       case "info":
         return <div>Informacje Content</div>;
       default:

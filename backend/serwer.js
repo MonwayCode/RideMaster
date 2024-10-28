@@ -134,6 +134,45 @@ app.get('/list/:userId', (req, res) => {
         })
 })
 
+app.get('/participants/:stableId', (req, res) => {
+    const stableId = req.params.stableId;
+
+    const sql = `
+        SELECT u.userId, u.name, u.surname, u.email, u.phone, c.role
+        FROM customers c
+        JOIN users u ON c.userId = u.userId
+        WHERE c.stableId = ?
+        `;
+
+        db.query(sql, [stableId], (err, results) => {
+            if(err)
+            {
+                throw err;
+            }
+            else
+            {
+                res.json(results);
+            }
+        })
+})
+
+app.put('/role/:userId', (req,res) => {
+    const userId = req.params.userId;
+    const { role } = req.body;
+    
+    const sql = `UPDATE customers SET role = ? WHERE userId = ?`;
+
+    db.query(sql, [role, userId], (err, results) => {
+        if(err)
+        {
+            throw err;
+        }
+        else
+        {
+            res.status(200).json({ message: "Rola użytkownika została zaktualizowana" });        }
+    })
+})
+
 app.listen(3001, () => {
     console.log(`Server is running on http://localhost:3001`);
 });

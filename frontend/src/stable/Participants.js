@@ -1,36 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-function Participants() {
+function Participants() 
+{
   const { stableId } = useParams();
   const [participants, setParticipants] = useState([]);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [currentUserRole, setCurrentUserRole] = useState("owner"); // Zastąp wartość faktyczną rolą zalogowanego użytkownika
+  const [currentUserRole, setCurrentUserRole] = useState();
+
+  const userId = window.localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchParticipants = async () => {
-      try {
+      try 
+      {
         const response = await fetch(`http://localhost:3001/participants/${stableId}`);
-        const data = await response.json();
-        setParticipants(data);
-      } catch (error) {
+        const allPart = await response.json(); //Lista wszystkich uczestników 
+        const filtrPart = allPart.filter(participant => String(participant.userId) !== String(userId)); //lista bez aktualnie zalogowanego zalogowanego
+        setParticipants(filtrPart);
+      } 
+      catch (error) 
+      {
         console.error("Błąd podczas pobierania uczestników", error);
       }
-    };
+    };//Wyciąganie z bazy danych wszystkich uczestników którzy dołączyli do stajni
+
+    const fetchUserRoles = async () => {
+      try 
+      {
+        const response = await fetch(`http://localhost:3001/list/${userId}`);
+        const data = await response.json();
+        const userRole = data[0].role; //Z bazy danych otrzymujemy tablice z różnymi danymi i w ten sposób wyciągam tylko tą która jest potrzebna
+        setCurrentUserRole(userRole);
+      }
+      catch (error)
+      {
+        console.error("Błąd podczas pobierania roli użytkownika", error);
+      }
+    };//Wyciąganie z bazy danych informacji o roli jaką ma aktualnie zalogowany uczestnik
 
     fetchParticipants();
-  }, [stableId]);
+    fetchUserRoles();
+  }, [stableId, userId]);
 
   const handleParticipantClick = (participant) => {
     setSelectedParticipant(participant);
     setShowModal(true);
-  };
+  };//Pokazanie okienka pop-up które pokazuje informacje o danych uczestniku
 
   const handleCloseModal = () => {
     setSelectedParticipant(null);
     setShowModal(false);
-  };
+  };//Zamknięcie okienka pop-up które pokazuje informacje o danych uczestniku
 
   return (
     <div style={{ padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
@@ -83,13 +105,16 @@ function Modal({ participant, onClose, currentUserRole, setParticipants }) {
         body: JSON.stringify({ role: isAdmin ? "client" : "admin" }),
       });
   
-      if (response.ok) {
+      if (response.ok) 
+        {
         const updatedRole = isAdmin ? "client" : "admin";
         setIsAdmin(!isAdmin);
         setParticipants((prev) =>
           prev.map((p) => (p.userId === participant.userId ? { ...p, role: updatedRole } : p))
         );
-      } else {
+      } 
+      else 
+      {
         console.error("Błąd aktualizacji roli");
       }
     }
@@ -97,8 +122,31 @@ function Modal({ participant, onClose, currentUserRole, setParticipants }) {
     {
         throw error;
     }
-  };
+  };//Dodawanie i usuwanie uprawnień administratorskich 
   
+  const removeParticipant = async () => {
+    try 
+    {
+      const response = await fetch(`http://localhost:3001/removeuser/${participant.userId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) 
+      {
+        setParticipants((prev) => prev.filter((p) => p.userId !== participant.userId));
+        alert("Uczestnik został usunięty ze stajni.");
+        onClose(); 
+      }
+      else 
+      {
+        console.error("Błąd usuwania uczestnika");
+      }
+    } 
+    catch (error) 
+    {
+      console.error("Błąd podczas usuwania uczestnika", error);
+    }
+  };
 
   return (
     <div style={{
@@ -142,10 +190,28 @@ function Modal({ participant, onClose, currentUserRole, setParticipants }) {
             type="checkbox"
             checked={isAdmin}
             onChange={toggleRole}
-            disabled={currentUserRole !== "owner"}
+            disabled={currentUserRole !== "owner"} //Ograniczenie funkcjonalności zmieniania roli dla administratorów. W tym momencie zmiane może dokonać tylko właściciel
             style={{ marginLeft: "10px" }}
           />
         </label>
+        
+        {currentUserRole === "owner" && (
+          <button
+            onClick={removeParticipant}
+            style={{
+              marginTop: "20px",
+              padding: "10px 20px",
+              backgroundColor: "#dc3545",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              width: "100%",
+            }}
+          >
+            Usuń uczestnika
+          </button>
+        )}
       </div>
     </div>
   );

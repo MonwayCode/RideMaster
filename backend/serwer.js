@@ -169,9 +169,27 @@ app.put('/role/:userId', (req,res) => {
         }
         else
         {
-            res.status(200).json({ message: "Rola użytkownika została zaktualizowana" });        }
+            res.status(200).json({ message: "Rola użytkownika została zaktualizowana" });   
+        }
     })
 })
+
+app.delete('/removeuser/:userId', (req,res) => {
+    const userId = req.params.userId;
+
+    const sql = `DELETE FROM customers WHERE userId = ?`;
+    db.query(sql, [userId], (err, results) => {
+        if(err)
+            {
+                throw err;
+            }
+        else
+            {
+                res.status(200).json({ message: "Użytkownik usunięty" }); 
+            }
+        })
+})
+
 
 app.listen(3001, () => {
     console.log(`Server is running on http://localhost:3001`);

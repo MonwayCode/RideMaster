@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 import Header from "../Header";
 import Calendar from "./Calender";
 import Participants from "./Participants";
 
 function Stable() {
+
+  const navigate = useNavigate();
   const location = useLocation();
   const { role } = location.state || {};
 
@@ -70,7 +73,11 @@ function Stable() {
             <div className="mt-4">
               {renderTabContent()}
             </div>
-
+            <div className="text-center mt-4">
+              <button className="btn btn-danger" onClick={() => navigate("/")}>
+                Wróć na stronę główną
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -26,11 +26,21 @@ function NewStable() {
         event.preventDefault();
         setErrors(Validation(values));
 
-        if (errors.name === "" && errors.location === "") {
-            axios.post('http://localhost:3001/nowastajnia', values).then(res => {
-                alert("Udało ci się dodać stajnie");
-                navigate('/');
-            }).catch(err => console.log(err));
+        if (errors.name === "" && errors.location === "") 
+            {
+            try 
+            {
+                axios.post('http://localhost:3001/newstable', values).then(res => {
+                    alert("Udało ci się dodać stajnie");
+                    navigate('/');
+                }).catch(err => {
+                    alert("Ta stajnia już istanieje w podanej lokalizacji.");
+                    navigate('/');
+                });
+            }
+            catch (err) {
+                console.error(err); 
+            }
         }
     };
 

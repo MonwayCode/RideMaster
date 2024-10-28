@@ -26,7 +26,7 @@ function Login ()
         setErrors(Validation(values));
         if(errors.email === "" && errors.password === "")
         {
-            axios.post('http://localhost:3001/logowanie', values).then(res => {
+            axios.post('http://localhost:3001/login', values).then(res => {
                 if(res.data.error === null)
                 {
                     window.localStorage.setItem("userId",res.data.userId);

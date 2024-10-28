@@ -14,7 +14,7 @@ const db = mysql.createConnection({
     database : "ridemaster" 
 })
 
-app.post('/rejestracja', (req,res) => {
+app.post('/register', (req,res) => {
     const sql =  `INSERT INTO users (name, surname, email, phone, password) VALUES (?, ?, ?, ?, ?)`;
     const values = [req.body.name, req.body.surname, req.body.email, req.body.phone, req.body.password];
     db.query(sql,values, (err,data) => {
@@ -26,7 +26,7 @@ app.post('/rejestracja', (req,res) => {
     }) 
 })
 
-app.post('/logowanie', (req,res) => {
+app.post('/login', (req,res) => {
     const sql = "SELECT * FROM users WHERE `email` = ? AND `password` = ?";
     db.query(sql,[ req.body.email, req.body.password], (err,data) => {
         if(err)
@@ -44,7 +44,7 @@ app.post('/logowanie', (req,res) => {
     })
 })
 
-app.get('/imie/:userId', (req, res) => {
+app.get('/name/:userId', (req, res) => {
     const x = req.params.userId;
     const sql = `SELECT name FROM users WHERE userId = ?`;
     db.query(sql,[x], (err, results) => {
@@ -55,18 +55,24 @@ app.get('/imie/:userId', (req, res) => {
         return res.json({ name: userName });    });
 });
 
-app.post('/nowastajnia', (req, res) => {
+app.post('/newstable', (req, res) => {
     const sql = `INSERT INTO stables (name, location, ownerId) VALUES (?, ?, ?)`;
     const values = [req.body.name, req.body.location, req.body.ownerId];
 
     db.query(sql, values, (err, data) => {
-        if (err) 
-        {
-            throw err;
+        if (err) {
+            // Obsługuje błąd, jeśli stajnia o tej samej nazwie i lokalizacji już istnieje
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ message: 'Stajnia o tej nazwie i lokalizacji już istnieje.' });
+            }
+            // W przypadku innych błędów logujemy i zwracamy odpowiednią informację
+            console.error("Błąd podczas dodawania stajni:", err);
+            return res.status(500).json({ message: 'Wystąpił błąd podczas dodawania stajni.' });
         }
 
         const stableId = data.insertId;
 
+        // Dodanie właściciela do bazy danych
         const sqlOwner = `INSERT INTO customers (userId, stableId, role) VALUES (?, ?, 'owner')`;
         const customerValues = [req.body.ownerId, stableId];
 
@@ -75,12 +81,14 @@ app.post('/nowastajnia', (req, res) => {
             {
                 throw err;
             }
+            res.status(200);
         });
     });
 });
 
 
-app.get('/stajnie',(req, res) => {
+
+app.get('/stables',(req, res) => {
     const sql = `SELECT * FROM stables`;
     db.query(sql, (err, results) => {
         if(err)
@@ -91,7 +99,7 @@ app.get('/stajnie',(req, res) => {
     })
 })
 
-app.post('/klienci', (req, res) => {
+app.post('/clients', (req, res) => {
     const { userId, stableId } = req.body;
 
     const sql = `INSERT INTO customers (userId, stableId) VALUES (?, ?)`;
@@ -109,6 +117,7 @@ app.post('/klienci', (req, res) => {
                 throw err;
             }
         }
+        res.status(200).json();
     });
 });
 

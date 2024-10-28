@@ -33,7 +33,7 @@ function Register ()
         setErrors(Validation(values));
         if(errors.name === "" && errors.email === "" && errors.password === "")
         {
-            axios.post('http://localhost:3001/rejestracja',values).then(res => {
+            axios.post('http://localhost:3001/register',values).then(res => {
                 navigate('/login')
             }).catch(err => console.log(err));
         }

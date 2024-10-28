@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 import Header from "../Header";
 import Calendar from "./Calender";
 import Participants from "./Participants";
 
 function Stable() {
-
   const navigate = useNavigate();
   const location = useLocation();
   const { role } = location.state || {};
@@ -21,12 +19,14 @@ function Stable() {
         { id: "trainings", label: "Treningi" },
         { id: "participants", label: "Uczestnicy" },
         { id: "info", label: "Informacje" },
+        { id: "settings", label: "Ustawienia" },
       ];
     } else if (role === "client") {
       return [
         { id: "calendar", label: "Kalendarz" },
         { id: "trainings", label: "Treningi" },
         { id: "info", label: "Informacje" },
+        { id: "settings", label: "Ustawienia" },
       ];
     }
     return [];
@@ -41,9 +41,11 @@ function Stable() {
       case "trainings":
         return <div>Treningi Content</div>;
       case "participants":
-        return <Participants />
+        return <Participants />;
       case "info":
         return <div>Informacje Content</div>;
+      case "settings":
+        return <div>Ustawienia Content</div>;
       default:
         return null;
     }
@@ -53,11 +55,10 @@ function Stable() {
     <div className="bg-dark text-white min-vh-100">
       <Header />
 
-      <div className="container mt-4">
-        <div className="card mb-3">
+      <div className="container mt-4" style={{ overflow: 'auto'}}>
+        <div className="card mb-3" >
           <div className="card-body">
-
-            <ul className="nav nav-tabs">
+            <ul className="nav nav-tabs d-flex justify-content-center"> 
               {tabs.map((tab) => (
                 <li className="nav-item" key={tab.id}>
                   <button

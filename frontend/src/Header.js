@@ -19,7 +19,7 @@ function Header()
     if (userId) {
       (async () => {
         try {
-          const response = await axios.get(`http://localhost:3001/imie/${userId}`);
+          const response = await axios.get(`http://localhost:3001/name/${userId}`);
           const userName = response.data.name;
           setName(userName);
         } catch (error) {

@@ -14,7 +14,7 @@ function Search() {
   useEffect(() => {
     const fetchStables = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/stajnie");
+        const response = await axios.get("http://localhost:3001/stables");
         setStables(response.data);
       } catch (error) {
         console.error("Błąd podczas wyszukiwania stajni: ", error);
@@ -42,19 +42,23 @@ function Search() {
     try 
     {
       const userId = window.localStorage.getItem("userId");
-      const response = await axios.post("http://localhost:3001/klienci", {
+      const response = await axios.post("http://localhost:3001/clients", {
         userId,
         stableId: selectedStable.stableId
       });
-      
-      alert("Dołączyłeś do stajni!");
-      handleClose();
+      if(response.status === 200)
+      {
+        alert("Pomyślnie zostałeś dodany do stajni");
+        handleClose();
+      }
+
     }
     catch (error) 
     {
         if (error.response && error.response.status === 400) 
         {
             alert("Już jestes w tej stajni");
+            handleClose();
         }
         else 
         {

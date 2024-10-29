@@ -68,13 +68,13 @@ function Settings()
     };
 
 
-  const subscribeToNewsletter = () => {
+  const Newsletter = () => {
     alert("Zapisano na newsletter.");
   };
 
   return (
     <div style={{ padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
-      <div style={{ margin: "20px 0" }}>
+      <div style={{ margin: "20px 0", textAlign: "center" }}>
         <label>
           <strong>Preferencje przypomnienia o treningach:</strong>
           <select value={reminderPreference} onChange={handleReminderChange} style={{ marginLeft: "10px" }}>
@@ -86,27 +86,27 @@ function Settings()
       </div>
 
       {currentUserRole === "client" && (
-        <div>
-          <button onClick={subscribeToNewsletter} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer", width: "100%" }}>
+        <div style={{textAlign: "center"}}>
+          <button onClick={Newsletter} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer"}}>
             Zapisz się na newsletter
           </button>
-          <button onClick={leaveStable} style={{ padding: "10px 20px", marginTop: "10px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer", width: "100%" }}>
+          <button onClick={leaveStable} style={{ padding: "10px 20px", marginTop: "10px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
             Opuść stajnię
           </button>
         </div>
       )}
 
       {currentUserRole === "admin" && (
-        <div>
-          <button onClick={leaveStable} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer", width: "100%" }}>
+        <div style={{textAlign: "center"}}>
+          <button onClick={leaveStable} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
             Opuść stajnię
           </button>
         </div>
       )}
 
       {currentUserRole === "owner" && (
-        <div>
-          <button onClick={deleteStable} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer", width: "100%" }}>
+        <div style={{textAlign: "center"}}>
+          <button onClick={deleteStable} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer"}}>
             Usuń stajnię
           </button>
         </div>

@@ -15,7 +15,7 @@ function Participants()
     const fetchParticipants = async () => {
       try 
       {
-        const response = await fetch(`http://localhost:3001/participants/${stableId}`);
+        const response = await fetch(`http://localhost:3001/customers/participants/${stableId}`);
         const allPart = await response.json(); //Lista wszystkich uczestników 
         const filtrPart = allPart.filter(participant => String(participant.userId) !== String(userId)); //lista bez aktualnie zalogowanego zalogowanego
         setParticipants(filtrPart);
@@ -29,7 +29,7 @@ function Participants()
     const fetchUserRoles = async () => {
       try 
       {
-        const response = await fetch(`http://localhost:3001/list/${userId}`);
+        const response = await fetch(`http://localhost:3001/customers/list/${userId}`);
         const data = await response.json();
         const userRole = data[0].role; //Z bazy danych otrzymujemy tablice z różnymi danymi i w ten sposób wyciągam tylko tą która jest potrzebna
         setCurrentUserRole(userRole);
@@ -99,7 +99,7 @@ function Modal({ participant, onClose, currentUserRole, setParticipants }) {
 
   const toggleRole = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/role/${participant.userId}`, {
+      const response = await fetch(`http://localhost:3001/customers/role/${participant.userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: isAdmin ? "client" : "admin" }),
@@ -127,7 +127,7 @@ function Modal({ participant, onClose, currentUserRole, setParticipants }) {
   const removeParticipant = async () => {
     try 
     {
-      const response = await fetch(`http://localhost:3001/removeuser/${participant.userId}`, {
+      const response = await fetch(`http://localhost:3001/customers/removeuser/${participant.userId}`, {
         method: "DELETE",
       });
 

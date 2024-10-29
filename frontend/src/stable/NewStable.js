@@ -30,7 +30,7 @@ function NewStable() {
             {
             try 
             {
-                axios.post('http://localhost:3001/newstable', values).then(res => {
+                axios.post('http://localhost:3001/stables/newstable', values).then(res => {
                     alert("Udało ci się dodać stajnie");
                     navigate('/');
                 }).catch(err => {

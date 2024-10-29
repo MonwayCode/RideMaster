@@ -15,7 +15,7 @@ function Home()
     const fetchStables = async () => {
       try 
       {
-        const response = await fetch(`http://localhost:3001/list/${userId}`);
+        const response = await fetch(`http://localhost:3001/customers/list/${userId}`);
         const data = await response.json();
         setStables(data);
       } 

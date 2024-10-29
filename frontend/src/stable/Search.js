@@ -42,7 +42,7 @@ function Search() {
     try 
     {
       const userId = window.localStorage.getItem("userId");
-      const response = await axios.post("http://localhost:3001/clients", {
+      const response = await axios.post("http://localhost:3001/customers/clients", {
         userId,
         stableId: selectedStable.stableId
       });

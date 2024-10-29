@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../Header";
 import Calendar from "./Calender";
 import Participants from "./Participants";
+import Settings from "./Settings";
 
 function Stable() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ function Stable() {
       case "info":
         return <div>Informacje Content</div>;
       case "settings":
-        return <div>Ustawienia Content</div>;
+        return <Settings />;
       default:
         return null;
     }

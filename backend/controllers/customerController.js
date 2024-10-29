@@ -100,3 +100,20 @@ exports.deleteCustomer = (req,res) => {
         })
 };
 
+exports.deleteStable = (req,res) => {
+    const userId = req.params.stableId;
+
+    const sql = `DELETE FROM customers WHERE stableId = ?`;
+    db.query(sql, [userId], (err, results) => {
+        if(err)
+            {
+                throw err;
+            }
+        else
+            {
+                res.status(200).json({ message: "Stajnia usunięta" }); 
+            }
+        })
+};
+
+

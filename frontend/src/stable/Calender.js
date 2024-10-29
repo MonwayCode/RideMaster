@@ -10,7 +10,7 @@ function CustomCalendar() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "20px", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", maxWidth: "500px", margin: "auto" }}>
+    <div style={{backgroundColor: "#f8f9fa", display: "flex", flexDirection: "column", alignItems: "center", padding: "20px", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", maxWidth: "500px", margin: "auto" }}>
       <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>Wybierz datę</h2>
       <Calendar
         onChange={handleDateChange}

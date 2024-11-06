@@ -5,6 +5,7 @@ import Header from "../Header";
 import Calendar from "./Calender";
 import Participants from "./Participants";
 import Settings from "./Settings";
+import Information from "./Information";
 
 function Stable() {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ function Stable() {
       case "participants":
         return <Participants />;
       case "info":
-        return <div>Informacje Content</div>;
+        return <Information />
       case "settings":
         return <Settings />;
       default:

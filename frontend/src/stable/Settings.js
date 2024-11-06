@@ -15,13 +15,17 @@ function Settings()
 
     useEffect(() => {
         const fetchUserRole = async () => {
-        try {
-            const response = await fetch(`http://localhost:3001/customers/list/${userId}`);
-            const data = await response.json();
-            setCurrentUserRole(data[0].role);
-        } catch (error) {
-            console.error("Błąd podczas pobierania roli użytkownika", error);
-        }
+          try 
+          {
+              const response = await fetch(`http://localhost:3001/customers/list/${userId}`);
+              const data = await response.json();
+              setCurrentUserRole(data[0].role);
+          } 
+          catch (error) 
+          {
+              console.error("Błąd podczas pobierania roli użytkownika", error);
+          }
+          
         };
 
         fetchUserRole();
@@ -36,7 +40,7 @@ function Settings()
         {
             try 
             {
-                const response = await fetch(`http://localhost:3001/customers/removeuser/${userId}`, {
+                    await fetch(`http://localhost:3001/customers/removeuser/${userId}`, {
                     method: "DELETE",
                 });
                 alert("Opuściłeś stajnię.");
@@ -54,7 +58,7 @@ function Settings()
         {
             try 
             {
-                const response = await fetch(`http://localhost:3001/customers/removestable/${stableId}`, {
+                    await fetch(`http://localhost:3001/customers/removestable/${stableId}`, {
                     method: "DELETE",
                 });
                 alert("Stajnia została usunięta.");
@@ -90,7 +94,7 @@ function Settings()
           <button onClick={Newsletter} style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer"}}>
             Zapisz się na newsletter
           </button>
-          <button onClick={leaveStable} style={{ padding: "10px 20px", marginTop: "10px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+          <button onClick={leaveStable} style={{ padding: "10px 20px", marginTop: "10px",marginLeft: "5px", backgroundColor: "#dc3545", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
             Opuść stajnię
           </button>
         </div>

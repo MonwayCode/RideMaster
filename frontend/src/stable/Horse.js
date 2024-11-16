@@ -59,7 +59,6 @@ function Horse() {
                 });
 
                 const data = await response.json();
-                alert(data.message); // Wyświetlenie komunikatu zwróconego przez serwer
                 if (response.ok) {
                     setHorses(prevHorses => prevHorses.filter(horse => horse.horseId !== horseId)); // Usuwamy konia z listy
                 }
@@ -70,66 +69,120 @@ function Horse() {
     };
 
     return (
-        <div style={{ padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
-            <h2 style={{ color: "#dc3545", fontSize: "24px", textAlign: "center" }}>Koń w Stajni</h2>
-
-            {/* Formularz dodawania konia */}
-            <form onSubmit={handleAddHorse} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ marginBottom: "15px", width: "100%" }}>
-                    <label htmlFor="name" style={{ fontWeight: "bold", display: "block" }}>Imię konia:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Wpisz imię konia"
-                        style={{
-                            width: "100%",
-                            padding: "10px",
-                            marginTop: "5px",
-                            border: "1px solid #ccc",
-                            borderRadius: "5px",
-                        }}
-                    />
-                </div>
-                <button
-                    type="submit"
-                    style={{
-                        padding: "10px 20px",
-                        backgroundColor: "#dc3545",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        width: "100%",
-                    }}
-                >
-                    Dodaj konia
-                </button>
-            </form>
-
-            <ul style={{ listStyleType: "none", padding: "0", marginTop: "20px" }}>
-                {horses.map((horse) => (
-                    <li key={horse.horseId} style={{ padding: "10px", margin: "5px 0", border: "1px solid #ccc", borderRadius: "5px" }}>
-                        <span>{horse.name}</span>
-                        <button
-                            onClick={() => handleRemoveHorse(horse.horseId)}
-                            style={{
-                                marginLeft: "20px",
-                                padding: "5px 10px",
-                                backgroundColor: "#dc3545",
-                                color: "#fff",
-                                border: "none",
-                                borderRadius: "5px",
-                                cursor: "pointer",
-                            }}
-                        >
-                            Usuń
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <div
+        style={{
+          padding: "20px",
+          backgroundColor: "#f8f9fa",
+          borderRadius: "10px",
+          maxWidth: "600px",
+          margin: "auto",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <h2
+          style={{
+            color: "#dc3545",
+            fontSize: "28px",
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
+        >
+          Konie w Stajni
+        </h2>
+      
+        {/* Formularz dodawania konia */}
+        <form
+          onSubmit={handleAddHorse}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "15px",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+            <label
+              htmlFor="name"
+              style={{ fontWeight: "bold", marginBottom: "5px", fontSize: "16px" }}
+            >
+              Imię konia:
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Wpisz imię konia"
+              style={{
+                padding: "10px",
+                borderRadius: "5px",
+                border: "1px solid #ced4da",
+                fontSize: "16px",
+                width: "100%",
+              }}
+            />
+          </div>
+          <button
+            type="submit"
+            style={{
+              padding: "12px 25px",
+              backgroundColor: "#dc3545",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              transition: "background-color 0.3s",
+              width: "100%",
+              fontSize: "16px",
+            }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")}
+          >
+            Dodaj konia
+          </button>
+        </form>
+      
+        <ul style={{ listStyleType: "none", padding: "0", marginTop: "30px" }}>
+          {horses.map((horse) => (
+            <li
+              key={horse.horseId}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "12px",
+                margin: "10px 0",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                backgroundColor: "#fff",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                transition: "transform 0.2s",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
+              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            >
+              <span style={{ fontSize: "18px", fontWeight: "500" }}>{horse.name}</span>
+              <button
+                onClick={() => handleRemoveHorse(horse.horseId)}
+                style={{
+                  padding: "8px 15px",
+                  backgroundColor: "#dc3545",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s",
+                }}
+                onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")}
+                onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")}
+              >
+                Usuń
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
     );
 }
 

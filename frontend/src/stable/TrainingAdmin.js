@@ -212,206 +212,318 @@ function TreningAdmin() {
   };
 
   return (
-    <div>
-      <Button variant="danger" onClick={() => handleShowModal()}>
-        Dodaj nowy Trening
-      </Button>
-      <h2>Lista treningów</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Klient</th>
-            <th>Trener</th>
-            <th>Data</th>
-            <th>Czas rozpoczęcia</th>
-            <th>Czas zakończenia</th>
-            <th>Koń</th>
-            <th>Typ treningu</th>
-            <th>Status</th>
-            <th>Akcja</th>
-          </tr>
-        </thead>
-        <tbody>
-          {trainings.map((training) => {
-            const client = participants.find(p => p.userId === training.clientId);
-            const trainer = trainers.find(t => t.userId === training.trainerId);
-            const horse = horses.find(h => h.horseId === training.horseId);
-
-            return (
-              <tr key={training.lessonId}>
-                <td>{client ? `${client.name} ${client.surname}` : 'Nie znany Klient'}</td>
-                <td>{trainer ? `${trainer.name} ${trainer.surname}` : 'Nie zapisany Trener'}</td>
-                <td>{formatDate(training.date)}</td>
-                <td>{formatTime(training.timeStart)}</td>
-                <td>{formatTime(training.timeEnd)}</td>
-                <td>{horse ? horse.name : 'Nie zapisany koń'}</td>
-                <td>{training.trainingType}</td>
-                <td>{training.status}</td>
-                <td>
-                  <Button variant="danger" onClick={() => handleShowModal(training)}>
-                    Edytuj
-                  </Button>
-                  <Button variant="danger" onClick={() => handleDeleteTraining(training.lessonId)}>
-                    Usuń
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{editMode ? "Edytowanie treningu" : "Dodawanie nowego treningu"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="clientId">
-                  <Form.Label>Klient</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="clientId"
-                    value={formData.clientId}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Wybierz klienta</option>
-                    {participants.map((participant) => (
-                      <option key={participant.userId} value={participant.userId}>
-                        {participant.name} {participant.surname}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="trainerId">
-                  <Form.Label>Trener</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="trainerId"
-                    value={formData.trainerId}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Wybierz trenera</option>
-                    {trainers.map((trainer) => (
-                      <option key={trainer.userId} value={trainer.userId}>
-                        {trainer.name} {trainer.surname}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="horseId">
-                  <Form.Label>Koń</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="horseId"
-                    value={formData.horseId}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Wybierz konia</option>
-                    {horses.map((horse) => (
-                      <option key={horse.horseId} value={horse.horseId}>
-                        {horse.name}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="trainingType">
-                  <Form.Label>Typ treningu</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="trainingType"
-                    value={formData.trainingType}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Wybierz typ treningu</option>
-                    <option value="indywidualna">Indywidualna</option>
-                    <option value="grupowa">Grupowa</option>
-                    <option value="ujeżdżeniowa">Ujeżdżeniowa</option>
-                    <option value="skokowa">Skokowa</option>
-                    <option value="hipoterapia">Hipoterapia</option>
-                    <option value="lonża">Lonża</option>
-                    <option value="oprowadzanka">Oprowadzanka</option>
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Form.Group controlId="date">
-              <Form.Label>Data</Form.Label>
-              <Form.Control
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="timeStart">
-                  <Form.Label>Czas rozpoczęcia</Form.Label>
-                  <Form.Control
-                    type="time"
-                    name="timeStart"
-                    value={formData.timeStart}
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="timeEnd">
-                  <Form.Label>Czas zakończenia</Form.Label>
-                  <Form.Control
-                    type="time"
-                    name="timeEnd"
-                    value={formData.timeEnd}
-                    onChange={handleInputChange}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Form.Group controlId="comment">
-              <Form.Label>Uwagi</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="comment"
-                value={formData.comment}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="status">
-              <Form.Label>Status</Form.Label>
-              <Form.Control
-                as="select"
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
+    <div style={{padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "10px", margin: "auto",}}>
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <Button variant="danger" onClick={() => handleShowModal()}>
+          Dodaj trening
+        </Button>
+        <h2>Lista treningów</h2>
+        <table className="table">
+          <thead>
+          <tr style={{ backgroundColor: "#343a40", color: "#fff" }}>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
               >
-                <option value="Oczekuje płatności">Oczekuje płatności</option>
-                <option value="Zapłacone">Zapłacone</option>
-                <option value="Odwołane">Odwołane</option>
-              </Form.Control>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
+                Klient
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Trener
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Data
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Czas rozpoczęcia
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Czas zakończenia
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Koń
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Typ treningu
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Status
+              </th>
+              <th
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  borderBottom: "2px solid #dee2e6",
+                }}
+              >
+                Akcja
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {trainings.map((training) => {
+              const client = participants.find(p => p.userId === training.clientId);
+              const trainer = trainers.find(t => t.userId === training.trainerId);
+              const horse = horses.find(h => h.horseId === training.horseId);
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Zamknij
-          </Button>
-          <Button variant="primary" onClick={handleSaveTraining}>
-            Zapisz Zmiany
-          </Button>
-        </Modal.Footer>
-      </Modal>
+              return (
+                <tr key={training.lessonId}>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {client ? `${client.name} ${client.surname}` : "Nie znany Klient"}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {trainer ? `${trainer.name} ${trainer.surname}` : "Nie zapisany Trener"}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {formatDate(training.date)}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {formatTime(training.timeStart)}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {formatTime(training.timeEnd)}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {horse ? horse.name : "Nie zapisany koń"}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {training.trainingType}
+                  </td>
+                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
+                    {training.status}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleShowModal(training)}
+                      style={{ marginRight: "8px", marginBottom: "3px" }} 
+                    >
+                      Edytuj
+                    </Button>
+                    <Button variant="danger" onClick={() => handleDeleteTraining(training.lessonId)}>
+                      Usuń
+                    </Button>
+                  </td>
+
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{editMode ? "Edytowanie treningu" : "Dodawanie nowego treningu"}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Row>
+                <Col md={6}>
+                  <Form.Group controlId="clientId">
+                    <Form.Label>Klient</Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="clientId"
+                      value={formData.clientId}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Wybierz klienta</option>
+                      {participants.map((participant) => (
+                        <option key={participant.userId} value={participant.userId}>
+                          {participant.name} {participant.surname}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="trainerId">
+                    <Form.Label>Trener</Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="trainerId"
+                      value={formData.trainerId}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Wybierz trenera</option>
+                      {trainers.map((trainer) => (
+                        <option key={trainer.userId} value={trainer.userId}>
+                          {trainer.name} {trainer.surname}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={6}>
+                  <Form.Group controlId="horseId">
+                    <Form.Label>Koń</Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="horseId"
+                      value={formData.horseId}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Wybierz konia</option>
+                      {horses.map((horse) => (
+                        <option key={horse.horseId} value={horse.horseId}>
+                          {horse.name}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="trainingType">
+                    <Form.Label>Typ treningu</Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="trainingType"
+                      value={formData.trainingType}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Wybierz typ treningu</option>
+                      <option value="indywidualna">Indywidualna</option>
+                      <option value="grupowa">Grupowa</option>
+                      <option value="ujeżdżeniowa">Ujeżdżeniowa</option>
+                      <option value="skokowa">Skokowa</option>
+                      <option value="hipoterapia">Hipoterapia</option>
+                      <option value="lonża">Lonża</option>
+                      <option value="oprowadzanka">Oprowadzanka</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Form.Group controlId="date">
+                <Form.Label>Data</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+              <Row>
+                <Col md={6}>
+                  <Form.Group controlId="timeStart">
+                    <Form.Label>Czas rozpoczęcia</Form.Label>
+                    <Form.Control
+                      type="time"
+                      name="timeStart"
+                      value={formData.timeStart}
+                      onChange={handleInputChange}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="timeEnd">
+                    <Form.Label>Czas zakończenia</Form.Label>
+                    <Form.Control
+                      type="time"
+                      name="timeEnd"
+                      value={formData.timeEnd}
+                      onChange={handleInputChange}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Form.Group controlId="comment">
+                <Form.Label>Uwagi</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  name="comment"
+                  value={formData.comment}
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="status">
+                <Form.Label>Status</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                >
+                  <option value="Oczekuje płatności">Oczekuje płatności</option>
+                  <option value="Zapłacone">Zapłacone</option>
+                  <option value="Odwołane">Odwołane</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Zamknij
+            </Button>
+            <Button variant="primary" onClick={handleSaveTraining}>
+              Zapisz Zmiany
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 }

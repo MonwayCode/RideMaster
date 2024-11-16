@@ -80,7 +80,7 @@ function Search() {
 
       <div className="container mt-4">
         <h2 className="text-light text-center">Wyszukaj stajnię</h2>
-        <div style={{display: 'flex', justifyContent: 'center' }}> 
+        <div style={{ display: 'flex', justifyContent: 'center' }}> 
           <input
             type="text"
             className="form-control mb-3"
@@ -108,19 +108,41 @@ function Search() {
           </div>
         )}
 
-        <Modal show={showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{selectedStable?.name}</Modal.Title>
+        <Modal
+          show={showModal}
+          onHide={handleClose}
+          centered
+          size="md"
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton style={{ backgroundColor: "#f8f9fa" }}>
+            <Modal.Title style={{ color: "#dc3545", fontWeight: "bold" }}>
+              {selectedStable?.name}
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <p>Lokalizacja: {selectedStable?.location}</p> 
-            <button className="btn btn-danger" onClick={handleJoin}>
+
+          <Modal.Body style={{ padding: "30px", textAlign: "center" }}>
+            <p style={{ fontSize: "16px", color: "#343a40", marginBottom: "20px" }}>
+              <strong>Lokalizacja:</strong> {selectedStable?.location}
+            </p>
+            <button
+              className="btn btn-danger"
+              onClick={handleJoin}
+              style={{
+                padding: "10px 20px",
+                fontSize: "16px",
+                borderRadius: "5px",
+                transition: "background-color",
+              }}
+            >
               Dołącz
             </button>
           </Modal.Body>
         </Modal>
+
         <div className="text-center mt-4">
-          <button className="btn btn-light" onClick={() => navigate("/")}>
+          <button className="btn btn-danger" onClick={() => navigate("/")}>
             Wróć na stronę główną
         </button>
         </div>

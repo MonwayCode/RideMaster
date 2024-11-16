@@ -149,71 +149,123 @@ function Modal({ participant, onClose, currentUserRole, setParticipants }) {
   };
 
   return (
-    <div style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}>
-      <div style={{
-        backgroundColor: "#fff",
-        padding: "20px",
-        borderRadius: "8px",
-        width: "300px",
-        position: "relative",
-      }}>
-        <button onClick={onClose} style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          border: "none",
-          background: "none",
-          fontSize: "16px",
-          cursor: "pointer",
-        }}>X</button>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+        backdropFilter: "blur(5px)", // Dodanie efektu rozmycia
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#fff",
+          padding: "30px",
+          borderRadius: "12px",
+          width: "400px",
+          maxWidth: "90%",
+          position: "relative",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+          transform: "scale(1)",
+          transition: "transform 0.3s ease-in-out",
+        }}
+      >
+        {/* Przycisk zamykania */}
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "15px",
+            right: "15px",
+            border: "none",
+            background: "none",
+            fontSize: "20px",
+            cursor: "pointer",
+            color: "#dc3545",
+            transition: "color 0.2s",
+          }}
+          onMouseOver={(e) => (e.target.style.color = "#c82333")}
+          onMouseOut={(e) => (e.target.style.color = "#dc3545")}
+        >
+          ✕
+        </button>
 
-        <h3 style={{ color: "#dc3545", fontSize: "20px", textAlign: "center" }}>Szczegóły Uczestnika</h3>
+        {/* Tytuł */}
+        <h3
+          style={{
+            color: "#dc3545",
+            fontSize: "22px",
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
+        >
+          Szczegóły Uczestnika
+        </h3>
 
-        <p><strong>Imię:</strong> {participant.name}</p>
-        <p><strong>Nazwisko:</strong> {participant.surname}</p>
-        <p><strong>Adres email:</strong> {participant.email}</p>
-        <p><strong>Numer Telefonu:</strong> {participant.phone}</p>
+        {/* Informacje o uczestniku */}
+        <div style={{ marginBottom: "15px" }}>
+          <p style={{ fontSize: "16px" }}>
+            <strong>Imię:</strong> {participant.name}
+          </p>
+          <p style={{ fontSize: "16px" }}>
+            <strong>Nazwisko:</strong> {participant.surname}
+          </p>
+          <p style={{ fontSize: "16px" }}>
+            <strong>Adres email:</strong> {participant.email}
+          </p>
+          <p style={{ fontSize: "16px" }}>
+            <strong>Numer Telefonu:</strong> {participant.phone}
+          </p>
+        </div>
 
-        <label>
+        {/* Checkbox do zmiany roli */}
+        <label style={{ display: "flex", alignItems: "center", fontSize: "16px" }}>
           <strong>Administrator:</strong>
           <input
             type="checkbox"
             checked={isAdmin}
             onChange={toggleRole}
-            disabled={currentUserRole !== "owner"} //Ograniczenie funkcjonalności zmieniania roli dla administratorów. W tym momencie zmiane może dokonać tylko właściciel
-            style={{ marginLeft: "10px" }}
+            disabled={currentUserRole !== "owner"}
+            style={{
+              marginLeft: "10px",
+              transform: "scale(1.3)",
+              cursor: currentUserRole === "owner" ? "pointer" : "not-allowed",
+            }}
           />
         </label>
-        
+
+        {/* Przycisk usunięcia uczestnika */}
         {currentUserRole === "owner" && (
           <button
             onClick={removeParticipant}
             style={{
-              marginTop: "20px",
-              padding: "10px 20px",
+              marginTop: "25px",
+              padding: "12px 20px",
               backgroundColor: "#dc3545",
               color: "#fff",
               border: "none",
-              borderRadius: "5px",
+              borderRadius: "8px",
               cursor: "pointer",
               width: "100%",
+              fontSize: "16px",
+              transition: "background-color 0.3s",
             }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")}
           >
             Usuń uczestnika
           </button>
         )}
       </div>
     </div>
+
   );
 }
 

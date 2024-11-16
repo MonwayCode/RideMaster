@@ -48,69 +48,91 @@ function NewStable() {
         <div className="bg-dark text-white min-vh-100 d-flex flex-column">
             <Header />
 
-            <section className="bg-dark flex-grow-1 d-flex justify-content-center align-items-center">
-                <div className="container" style={{ maxWidth: '900px', overflow: 'hidden' }}>
-                    <div className="row justify-content-center">
-                        <div className="col-lg-8 col-md-10 col-sm-12">
-                            <form onSubmit={handleSubmit}>
-                                <div className="card" style={{ borderRadius: '1rem' }}>
-                                    <div className="row g-0">
-                                        <div className="col-md-12 d-flex align-items-center">
-                                            <div className="card-body p-4 text-black">
-                                                <div className="d-flex align-items-center pb-1">
-                                                    <i style={{ color: '#FF6219' }}></i>
-                                                    <span className="h1 fw-bold mb-0 text-center">Wprowadź informacje o swojej stajni</span>
-                                                </div>
-
-                                                <div className="form-outline mb-3">
-                                                    <input
-                                                        id="name"
-                                                        name="name"
-                                                        className="form-control form-control-lg"
-                                                        onChange={handleInput}
-                                                    />
-                                                    <label className="form-label" htmlFor="name">Nazwa Stajni</label>
-                                                    {errors.name && <div className='text-danger'>{errors.name}</div>}
-                                                </div>
-
-                                                <div className="form-outline mb-3">
-                                                    <input
-                                                        id="location"
-                                                        name="location"
-                                                        className="form-control form-control-lg"
-                                                        onChange={handleInput}
-                                                    />
-                                                    <label className="form-label" htmlFor="location">Lokalizacja stajni</label>
-                                                    {errors.location && <div className='text-danger'>{errors.location}</div>}
-                                                </div>
-
-                                                <div className="pt-1 mb-3">
-                                                    <button
-                                                        className="btn btn-lg btn-block"
-                                                        type="submit"
-                                                        style={{ backgroundColor: '#4E4562', color: '#bbbcd0' }}
-                                                    >
-                                                        Dodaj stajnie
-                                                    </button>
-                                                </div>
-                                                <p className="mb-0" style={{ color: '#393f81' }}>
-                                                    Chcesz dołączyć do stajnie, a nie ją dodawać? 
-                                                    <span 
-                                                        style={{ color: '#393f81', cursor: 'pointer', textDecoration: 'underline' }} 
-                                                        onClick={() => navigate('/')}
-                                                    >
-                                                        Kliknij tutaj!
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+            <section
+                className="d-flex justify-content-center align-items-center"
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '110vh',
+                }}
+                >
+                <div className="container" style={{ maxWidth: '600px' }}>
+                    <div className="card shadow-lg" style={{ borderRadius: '15px' }}>
+                    <div className="card-body p-5">
+                        {/* Nagłówek */}
+                        <div className="text-center mb-4">
+                        <h1 className="fw-bold text-danger">Wprowadź informacje o swojej stajni</h1>
                         </div>
+
+                        {/* Formularz */}
+                        <form onSubmit={handleSubmit}>
+                        {/* Pole: Nazwa Stajni */}
+                        <div className="form-outline mb-4">
+                            <label className="form-label fw-bold" htmlFor="name">
+                            Nazwa Stajni
+                            </label>
+                            <input
+                            id="name"
+                            name="name"
+                            className="form-control form-control-lg"
+                            onChange={handleInput}
+                            placeholder="Wpisz nazwę stajni"
+                            required
+                            />
+                            {errors.name && <div className="text-danger mt-1">{errors.name}</div>}
+                        </div>
+
+                        {/* Pole: Lokalizacja Stajni */}
+                        <div className="form-outline mb-4">
+                            <label className="form-label fw-bold" htmlFor="location">
+                            Lokalizacja Stajni
+                            </label>
+                            <input
+                            id="location"
+                            name="location"
+                            className="form-control form-control-lg"
+                            onChange={handleInput}
+                            placeholder="Wpisz lokalizację stajni"
+                            required
+                            />
+                            {errors.location && <div className="text-danger mt-1">{errors.location}</div>}
+                        </div>
+
+                        {/* Przycisk: Dodaj Stajnie */}
+                        <div className="text-center">
+                            <button
+                            type="submit"
+                            className="btn btn-danger"
+                            style={{
+                                padding: '12px 30px',
+                                borderRadius: '8px',
+                                fontSize: "20px",
+                                transition: 'background-color',
+                            }}
+                            >
+                            Dodaj stajnię
+                            </button>
+                        </div>
+                        </form>
+
+                        {/* Tekst pomocniczy */}
+                        <p className="text-center mt-4" style={{ color: '#6c757d' }}>
+                        Chcesz dołączyć do stajni, a nie ją dodawać?{' '}
+                        <span
+                            style={{ color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}
+                            onClick={() => navigate('/')}
+                        >
+                            Kliknij tutaj!
+                        </span>
+                        </p>
+                    </div>
                     </div>
                 </div>
             </section>
+
+
         </div>
     );
 }

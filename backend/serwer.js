@@ -7,6 +7,8 @@ const userRoutes = require('./routes/userRoutes');
 const stableRoutes = require('./routes/stableRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const eventRoutes = require('./routes/eventRoutes');
+const trainingRouter = require('./routes/trainingRoutes')
+const horseRoutes = require('./routes/horseRoutes');
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use('/users', userRoutes);
 app.use('/stables', stableRoutes);
 app.use('/customers', customerRoutes);
 app.use('/events', eventRoutes);
+app.use('/trainings', trainingRouter);
+app.use('/horses', horseRoutes);
 
 // Start serwera
 app.listen(3001, () => {

@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import axios from "axios";
 
-function Information() {
+function Information() 
+{
     const { stableId } = useParams();
     const [events, setEvents] = useState([]);
     const [currentUserRole, setCurrentUserRole] = useState(null);
@@ -125,7 +126,7 @@ function Information() {
     };
 
     return (
-        <div className="container mt-4">
+        <div style={{ padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
             <h2 className="text-center text-danger">Lista Wydarzeń</h2>
 
             {/* Przycisk "Dodaj Wydarzenie" widoczny tylko dla admina i właściciela */}

@@ -6,6 +6,8 @@ import Calendar from "./Calender";
 import Participants from "./Participants";
 import Settings from "./Settings";
 import Information from "./Information";
+import TrainingAdmin from "./TrainingAdmin";
+import Horses from "./Horse";
 
 function Stable() {
   const navigate = useNavigate();
@@ -18,10 +20,11 @@ function Stable() {
     if (role === "owner" || role === "admin") {
       return [
         { id: "calendar", label: "Kalendarz" },
-        { id: "trainings", label: "Treningi" },
+        { id: "trainingsAdmin", label: "Treningi" },
         { id: "participants", label: "Uczestnicy" },
         { id: "info", label: "Informacje" },
         { id: "settings", label: "Ustawienia" },
+        { id: "horses", label: "Konie"}
       ];
     } else if (role === "client") {
       return [
@@ -40,14 +43,16 @@ function Stable() {
     switch (activeTab) {
       case "calendar":
         return <Calendar />;
-      case "trainings":
-        return <div>Treningi Content</div>;
+      case "trainingsAdmin":
+        return <TrainingAdmin />;
       case "participants":
         return <Participants />;
       case "info":
         return <Information />
       case "settings":
         return <Settings />;
+      case "horses":
+        return <Horses />
       default:
         return null;
     }

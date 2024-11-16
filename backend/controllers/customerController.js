@@ -84,6 +84,28 @@ exports.roleUpdate = (req,res) => {
     })
 };
 
+
+exports.getTrainers = (req, res) => {
+    const stableId = req.params.stableId;
+  
+    const query = `
+      SELECT customers.userId, users.name, users.surname
+      FROM customers
+      JOIN users ON customers.userId = users.userId
+      WHERE customers.stableId = ? AND (customers.role = 'admin' OR customers.role = 'owner')
+    `;
+  
+    // Wykonanie zapytania
+    db.query(query, [stableId], (err, results) => {
+      if (err) {
+        console.error("Błąd podczas pobierania trenerów:", err);
+        return res.status(500).json({ message: "Błąd podczas pobierania trenerów" });
+      }
+      res.json(results);  // Zwracamy dane trenerów
+    });
+  };
+  
+
 exports.deleteCustomer = (req,res) => {
     const userId = req.params.userId;
 

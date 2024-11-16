@@ -6,6 +6,7 @@ router.post('/clients', customerController.addCustomer);
 
 router.get('/list/:userId', customerController.listOfStables);
 router.get('/participants/:stableId', customerController.listOfParticipants);
+router.get('/trainers/:stableId', customerController.getTrainers)
 
 router.put('/role/:userId', customerController.roleUpdate);
 

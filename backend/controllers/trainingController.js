@@ -13,9 +13,9 @@ exports.newTraining = (req, res) => {
     (err, result) => {
       if (err) {
         console.error("Błąd podczas dodawania treningu: ", err);
-        return res.status(500).json({ message: "Błąd podczas dodawania treningu" });
+        return res.status(500).json;
       }
-      return res.status(201).json;
+       res.status(200).json;
     }
   );
 };
@@ -29,7 +29,7 @@ exports.getTrainings = (req, res) => {
   db.query(query,[stableId], (err, result) => {
     if (err) {
       console.error("Błąd podczas pobierania treningów: ", err);
-      return res.status(500).json({ message: "Błąd podczas pobierania treningów" });
+      return res.status(500).json;
     }
     return res.status(200).json(result);
   });
@@ -46,13 +46,30 @@ exports.updateTraining = (req, res) => {
   db.query(query,[clientId, trainerId, date, timeStart, timeEnd, horseId, trainingType, comment, status, stableId, lessonId],(err, result) => {
       if (err) {
         console.error("Błąd podczas aktualizacji treningu: ", err);
-        return res.status(500).json({ message: "Błąd podczas aktualizacji treningu" });
+        return res.status(500).json;
       }
-      return res.status(200).json({ message: "Trening został zaktualizowany" });
+      res.status(200).json();
     }
   );
 };
 
+exports.cancelTraining = (req, res) => {
+  const { lessonId } = req.params;
+  const { status } = req.body;
+
+  const query = `UPDATE lessons 
+                 SET status = ?
+                 WHERE lessonId = ?`;
+
+  db.query(query,[ status, lessonId],(err, result) => {
+      if (err) {
+        console.error("Błąd podczas aktualizacji treningu: ", err);
+        return res.status(500).json;
+      }
+      res.status(200).json;
+    }
+  );
+};
 
 exports.removeTraining = (req, res) => {
   const { lessonId } = req.params;
@@ -62,8 +79,8 @@ exports.removeTraining = (req, res) => {
   db.query(query, [lessonId], (err, result) => {
     if (err) {
       console.error("Błąd podczas usuwania treningu: ", err);
-      return res.status(500).json({ message: "Błąd podczas usuwania treningu" });
+      return res.status(500).json;
     }
-    return res.status(200).json({ message: "Trening został usunięty" });
+    res.status(200).json;
   });
 };

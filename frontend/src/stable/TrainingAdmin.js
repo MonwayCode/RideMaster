@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { Button, Modal, Form, Row, Col, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 function TreningAdmin() {
@@ -25,14 +25,6 @@ function TreningAdmin() {
     status: "Oczekuje płatności",
     stableId: stableId,
   });
-
-  useEffect(() => {
-    // Fetch initial data
-    fetchTrainings();
-    fetchTrainers();
-    fetchHorses();
-    fetchParticipants();
-  }, [stableId]);
 
   const fetchTrainings = async () => {
     try {
@@ -70,6 +62,13 @@ function TreningAdmin() {
     }
   };
 
+  useEffect(() => {
+    fetchTrainings();
+    fetchTrainers();
+    fetchHorses();
+    fetchParticipants();
+  }, [stableId]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("pl-PL", { year: "numeric", month: "long", day: "numeric" });
@@ -82,18 +81,15 @@ function TreningAdmin() {
 
   const handleShowModal = (training = null) => {
     if (training) {
-      // Check if the date is in the format YYYY-MM-DD
       const trainingDate = new Date(training.date);
-      // Add 1 day to the date
       trainingDate.setDate(trainingDate.getDate() + 1);
 
-      // Format date to yyyy-mm-dd (needed for date input)
       const formattedDate = trainingDate.toISOString().split("T")[0];
 
       setFormData({
         clientId: training.clientId,
         trainerId: training.trainerId,
-        date: formattedDate,  // Use the formatted date + 1 day
+        date: formattedDate,  
         timeStart: training.timeStart,
         timeEnd: training.timeEnd,
         horseId: training.horseId,
@@ -201,9 +197,12 @@ function TreningAdmin() {
   const handleDeleteTraining = async (lessonId) => {
     if (window.confirm("Czy na pewno chcesz usunąć ten trening?")) {
       try {
-        await axios.delete(`http://localhost:3001/trainings/removetraining/${lessonId}`);
-        fetchTrainings(); // Refresh the list after deletion
-        alert("Trening został pomyślnie usunięty!");
+        const response = await axios.delete(`http://localhost:3001/trainings/removetraining/${lessonId}`);
+        if(response.status === 200)
+          {
+            alert("Trening został pomyślnie usunięty!");
+            fetchTrainings();
+          }
       } catch (error) {
         console.error("Błąd przy usuwaniu treningu:", error);
         alert("Wystąpił błąd podczas usuwania treningu.");
@@ -213,152 +212,47 @@ function TreningAdmin() {
 
   return (
     <div style={{padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "10px", margin: "auto",}}>
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <Button variant="danger" onClick={() => handleShowModal()}>
-          Dodaj trening
-        </Button>
-        <h2>Lista treningów</h2>
-        <table className="table">
-          <thead>
-          <tr style={{ backgroundColor: "#343a40", color: "#fff" }}>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Klient
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Trener
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Data
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Czas rozpoczęcia
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Czas zakończenia
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Koń
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Typ treningu
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Status
-              </th>
-              <th
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderBottom: "2px solid #dee2e6",
-                }}
-              >
-                Akcja
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {trainings.map((training) => {
-              const client = participants.find(p => p.userId === training.clientId);
-              const trainer = trainers.find(t => t.userId === training.trainerId);
-              const horse = horses.find(h => h.horseId === training.horseId);
-
+    <div style={{ textAlign: "center", marginBottom: "20px" }}>
+      <Button variant="danger" onClick={() => handleShowModal()}>
+        Dodaj trening
+      </Button>
+      <h2 className="text-center mb-4">Lista treningów</h2>
+      <Table striped bordered hover responsive className="text-center align-middle">
+        <thead style={{ backgroundColor: "#343a40", color: "#fff" }}>
+          <tr>
+            <th>Klient</th>
+            <th>Trener</th>
+            <th>Data</th>
+            <th>Czas rozpoczęcia</th>
+            <th>Czas zakończenia</th>
+            <th>Koń</th>
+            <th>Typ treningu</th>
+            <th>Status</th>
+            <th>Akcja</th>
+          </tr>
+        </thead>
+        <tbody>
+          {trainings.length > 0 ? (
+            trainings.map((training) => {
+              const client = participants.find((p) => p.userId === training.clientId);
+              const trainer = trainers.find((t) => t.userId === training.trainerId);
+              const horse = horses.find((h) => h.horseId === training.horseId);
+  
               return (
                 <tr key={training.lessonId}>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {client ? `${client.name} ${client.surname}` : "Nie znany Klient"}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {trainer ? `${trainer.name} ${trainer.surname}` : "Nie zapisany Trener"}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {formatDate(training.date)}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {formatTime(training.timeStart)}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {formatTime(training.timeEnd)}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {horse ? horse.name : "Nie zapisany koń"}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {training.trainingType}
-                  </td>
-                  <td style={{ padding: "12px", textAlign: "center", fontSize: "16px" }}>
-                    {training.status}
-                  </td>
-                  <td style={{ textAlign: "center" }}>
+                  <td>{client ? `${client.name} ${client.surname}` : "Nie znany Klient"}</td>
+                  <td>{trainer ? `${trainer.name} ${trainer.surname}` : "Nie zapisany Trener"}</td>
+                  <td>{formatDate(training.date)}</td>
+                  <td>{formatTime(training.timeStart)}</td>
+                  <td>{formatTime(training.timeEnd)}</td>
+                  <td>{horse ? horse.name : "Nie zapisany koń"}</td>
+                  <td>{training.trainingType}</td>
+                  <td>{training.status}</td>
+                  <td>
                     <Button
                       variant="danger"
                       onClick={() => handleShowModal(training)}
-                      style={{ marginRight: "8px", marginBottom: "3px" }} 
+                      style={{ marginRight: "5px"}} 
                     >
                       Edytuj
                     </Button>
@@ -366,12 +260,19 @@ function TreningAdmin() {
                       Usuń
                     </Button>
                   </td>
-
                 </tr>
               );
-            })}
-          </tbody>
-        </table>
+            })
+          ) : (
+            <tr>
+              <td colSpan="9" className="text-center">
+                Brak treningów do wyświetlenia.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+  
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title>{editMode ? "Edytowanie treningu" : "Dodawanie nowego treningu"}</Modal.Title>
@@ -524,7 +425,7 @@ function TreningAdmin() {
           </Modal.Footer>
         </Modal>
       </div>
-    </div>
+      </div>
   );
 }
 

@@ -3,10 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../Header";
 import Calendar from "./Calender";
+import CalendarAdmin from "./CalenderAdmin";
 import Participants from "./Participants";
 import Settings from "./Settings";
 import Information from "./Information";
 import TrainingAdmin from "./TrainingAdmin";
+import Training from "./Training";
 import Horses from "./Horse";
 
 function Stable() {
@@ -14,12 +16,21 @@ function Stable() {
   const location = useLocation();
   const { role } = location.state || {};
 
-  const [activeTab, setActiveTab] = useState("calendar");
+  const getDefaultTab = (role) => {
+    if (role === "owner" || role === "admin") {
+      return "calendarAdmin";
+    } else if (role === "client") {
+      return "calendar";
+    }
+    return "calendar"; // Domyślna zakładka
+  };
+
+  const [activeTab, setActiveTab] = useState(getDefaultTab(role));
 
   const getTabsForRole = (role) => {
     if (role === "owner" || role === "admin") {
       return [
-        { id: "calendar", label: "Kalendarz" },
+        { id: "calendarAdmin", label: "Kalendarz" },
         { id: "trainingsAdmin", label: "Treningi" },
         { id: "participants", label: "Uczestnicy" },
         { id: "info", label: "Informacje" },
@@ -43,8 +54,12 @@ function Stable() {
     switch (activeTab) {
       case "calendar":
         return <Calendar />;
+      case "calendarAdmin":
+         return <CalendarAdmin />
       case "trainingsAdmin":
         return <TrainingAdmin />;
+      case "trainings":
+        return <Training />
       case "participants":
         return <Participants />;
       case "info":

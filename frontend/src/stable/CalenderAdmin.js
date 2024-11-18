@@ -4,21 +4,21 @@ import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function ClientCalendar() {
+function CalendarAdmin() {
   const { stableId } = useParams();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [trainings, setTrainings] = useState([]);
   const [selectedTrainings, setSelectedTrainings] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const [horses, setHorses] = useState([]);
+  const [participants, setParticipants] = useState([]);
   const userId = window.localStorage.getItem("userId");
 
   // Pobieranie treningów
   const fetchTrainings = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/trainings/${stableId}`);
-      const userTrainings = response.data.filter(training => training.clientId === Number(userId));
-      setTrainings(userTrainings);
+      setTrainings(response.data);
     } catch (error) {
       console.error("Błąd przy pobieraniu treningów:", error);
     }
@@ -44,10 +44,21 @@ function ClientCalendar() {
     }
   };
 
+  // Pobieranie uczestników
+  const fetchParticipants = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/customers/participants/${stableId}`);
+      setParticipants(response.data);
+    } catch (error) {
+      console.error("Błąd przy pobieraniu uczestników:", error);
+    }
+  };
+
   useEffect(() => {
     fetchTrainings();
     fetchTrainers();
     fetchHorses();
+    fetchParticipants();
   }, [userId, stableId]);
 
   // Funkcja do zaznaczania dni treningów z kolorowymi kropkami
@@ -60,12 +71,15 @@ function ClientCalendar() {
       });
 
       if (trainingsOnDate.length > 0) {
-        return "has-trainings";
+        const hasTrainerTraining = trainingsOnDate.some(
+          training => training.trainerId === Number(userId)
+        );
+        return hasTrainerTraining ? "highlight-trainer-day" : "has-trainings";
       }
     }
   };
 
-  // Funkcja do wyświetlania kropki na kalendarzu w zależności od typu treningu
+  // Funkcja do wyświetlania kropki na kalendarzu
   const tileContent = ({ date, view }) => {
     if (view === "month") {
       const dateStr = date.toLocaleDateString("pl-PL");
@@ -77,7 +91,7 @@ function ClientCalendar() {
       return (
         trainingsOnDate.length > 0 &&
         trainingsOnDate.map((training, index) => {
-          const color = getTrainingColor(training.trainingType);
+          const color = training.trainerId === Number(userId) ? "#FF7F50" : getTrainingColor(training.trainingType);
           return (
             <div
               key={index}
@@ -99,21 +113,21 @@ function ClientCalendar() {
   const getTrainingColor = (trainingType) => {
     switch (trainingType) {
       case "indywidualna":
-        return "#7D7F7D"; // Czerwony
+        return "#7D7F7D";
       case "grupowa":
-        return "#0A0A0A"; 
+        return "#0A0A0A";
       case "ujeżdżeniowa":
-        return "#CBD0CC"; 
+        return "#CBD0CC";
       case "skokowa":
-        return "#2271B3"; 
+        return "#2271B3";
       case "hipoterapia":
-        return "#00BB2D"; 
+        return "#00BB2D";
       case "lonża":
-        return "#59351F"; 
+        return "#59351F";
       case "oprowadzanka":
         return "#89AC76";
       default:
-        return "#cccccc";   
+        return "#cccccc";
     }
   };
 
@@ -147,22 +161,26 @@ function ClientCalendar() {
         <h4 style={{ marginBottom: "5px" }}>Wybrana data:</h4>
         <p style={{ fontSize: "18px", color: "#333" }}>{selectedDate.toLocaleDateString()}</p>
 
-        {/* Wyświetlanie treningów dla wybranej daty */}
         {selectedTrainings.length > 0 ? (
           <div>
             <h5>Treningi na ten dzień:</h5>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "10px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "10px" }}>
               {selectedTrainings.map((training, index) => {
-                // Szukanie trenera i konia dla tego treningu
-                const trainer = trainers.find((t) => t.userId === training.trainerId);
-                const horse = horses.find((h) => h.horseId === training.horseId);
+                const trainer = trainers.find(t => t.userId === training.trainerId);
+                const horse = horses.find(h => h.horseId === training.horseId);
+                const client = participants.find((p) => p.userId === training.clientId);
 
                 return (
-                  <div key={index} style={{ backgroundColor: "#ffffff", padding: "10px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-                    <p><strong>Godzina:</strong> {formatTime(training.timeStart + 1)} - {formatTime(training.timeEnd + 1)}</p>
+                  <div key={index} style={{
+                    backgroundColor: training.trainerId === Number(userId) ? "#FFF0E1" : "#ffffff",
+                    padding: "10px", 
+                    borderRadius: "8px", 
+                  }}>
+                    <p><strong>Godzina:</strong> {formatTime(training.timeStart)} - {formatTime(training.timeEnd)}</p>
                     <p><strong>Typ treningu:</strong> {training.trainingType}</p>
-                    <p><strong>Trener:</strong> {trainer ? `${trainer.name} ${trainer.surname}` : "Nie zapisany Trener"}</p>
-                    <p><strong>Koń:</strong> {horse ? horse.name : "Nie zapisany koń"}</p>
+                    <p><strong>Trener:</strong> {trainer ? `${trainer.name} ${trainer.surname}` : "Brak danych"}</p>
+                    <p><strong>Uczestnik:</strong> {client ? `${client.name} ${client.surname}` : "Brak danych"}</p>
+                    <p><strong>Koń:</strong> {horse ? horse.name : "Brak danych"}</p>
                   </div>
                 );
               })}
@@ -176,4 +194,4 @@ function ClientCalendar() {
   );
 }
 
-export default ClientCalendar;
+export default CalendarAdmin;

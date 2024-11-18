@@ -10,6 +10,7 @@ router.post('/newtraining', trainingController.newTraining);
 
 // Aktualizowanie treningu
 router.put('/updatetraining/:lessonId', trainingController.updateTraining);
+router.put('/canceltraining/:lessonId', trainingController.cancelTraining);
 
 // Usuwanie treningu
 router.delete('/removetraining/:lessonId', trainingController.removeTraining);
